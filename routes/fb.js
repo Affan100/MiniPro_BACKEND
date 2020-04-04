@@ -1,4 +1,4 @@
-var FB = require('../fb');
+var FB = require('../fackbook');
 let express = require('express')
 let app = express()
 let bodyParser = require('body-parser');

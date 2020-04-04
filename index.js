@@ -5,7 +5,10 @@ let cors = require('cors');
 var session = require('express-session')
 let app = express();
 var request = require('request');
-
+const FB = require('./fackbook');
+const env = require('dotenv').config()
+const authRoutes = require('./routes/auth')
+const fbRoutes = require('./routes/fb')
 
 app.use(cors({ origin: ['http://localhost:3000'], methods: ['GET', 'POST', 'PUT', 'DELETE'], credentials: true }));
 
@@ -62,6 +65,15 @@ router.route('/product/:product_id')
         products.splice(index, 1)
         res.json({ message: 'Product deleted: ' + req.params.product_id });
     })
+
+router.route('/auth')
+    .get(authRoutes.index);
+router.route('/auth/logout')
+    .get(authRoutes.logout);
+router.route('/auth/facebook')
+    .get(fbRoutes.loginUrl);
+router.route('/auth/facebook/login/callback')
+    .get(fbRoutes.loginCallback);
 
 
 app.use("*", (req, res) => res.status(404).send('404 Not found'));
